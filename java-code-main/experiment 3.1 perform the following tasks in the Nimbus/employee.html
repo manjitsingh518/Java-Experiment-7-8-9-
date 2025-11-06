@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Search</title>
+    <script>
+        // Simple form validation for search
+        function validateSearch() {
+            const empId = document.getElementById("empId").value.trim();
+
+            if (empId === "") {
+                alert("Please enter an Employee ID to search.");
+                return false;
+            }
+
+            if (isNaN(empId)) {
+                alert("Employee ID must be a number.");
+                return false;
+            }
+
+            return true;
+        }
+
+        // Optional: Dynamic search preview (AJAX)
+        async function searchEmployee() {
+            const empId = document.getElementById("empId").value.trim();
+            if (empId === "") return;
+
+            const response = await fetch(`EmployeeServlet?empId=${empId}`);
+            const data = await response.text();
+            document.getElementById("result").innerHTML = data;
+        }
+    </script>
+</head>
+<body>
+    <h2>Employee Records</h2>
+
+    <!-- Search Form -->
+    <form action="EmployeeServlet" method="get" onsubmit="return validateSearch()">
+        <label>Enter Employee ID:</label>
+        <input type="text" id="empId" name="empId" onkeyup="searchEmployee()">
+        <input type="submit" value="Search">
+    </form>
+
+    <hr>
+
+    <div id="result">
+        <!-- Employee records or search results will appear here -->
+    </div>
+</body>
+</html>
